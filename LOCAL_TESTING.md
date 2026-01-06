@@ -31,8 +31,8 @@ This guide provides step-by-step instructions for setting up and testing Discuss
 - pip (Python package manager)
 
 **Frontend:**
-- Node.js 18+
-- npm 9+
+- Node.js 20+ (LTS version recommended)
+- npm 10+
 
 **Optional but Recommended:**
 - Docker (for containerized development)
@@ -145,7 +145,43 @@ DEFAULT_FROM_EMAIL=noreply@discussit.eu
 
 ## Frontend Setup
 
-### 1. Install Node.js Dependencies
+### 1. Install Correct Node.js Version
+
+**Important:** Our frontend requires Node.js 20+ and npm 10+. Ubuntu's default repositories often have older versions.
+
+```bash
+# Remove old Node.js/npm if installed
+sudo apt remove --purge nodejs npm
+sudo apt autoremove
+
+# Install Node.js 20.x LTS using NodeSource repository
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Verify installation
+node -v  # Should show v20.x.x
+npm -v   # Should show 10.x.x or higher
+```
+
+If you prefer using nvm (Node Version Manager):
+
+```bash
+# Install nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+# Reload shell
+source ~/.bashrc
+
+# Install Node.js 20
+nvm install 20
+nvm use 20
+n
+# Verify
+node -v
+npm -v
+```
+
+### 2. Install Node.js Dependencies
 
 ```bash
 cd ../frontend
@@ -396,6 +432,46 @@ cd frontend
 rm -rf node_modules package-lock.json
 npm cache clean --force
 npm install
+```
+
+**Problem:** Node.js version too old
+
+**Symptoms:**
+- Warnings about unsupported Node.js version
+- Errors like "Unsupported engine for react-router-dom"
+- npm WARN read-shrinkwrap version mismatches
+
+**Solution:**
+```bash
+# Check current Node.js version
+node -v
+
+# If version is below 20, upgrade Node.js:
+
+# Method 1: Using NodeSource (recommended)
+sudo apt remove --purge nodejs npm
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Method 2: Using nvm
+nvm install 20
+nvm use 20
+
+# After upgrading, reinstall dependencies
+cd frontend
+rm -rf node_modules package-lock.json
+npm install
+```
+
+**Problem:** npm version too old
+
+**Solution:**
+```bash
+# Upgrade npm
+npm install -g npm@latest
+
+# Or upgrade Node.js (which includes newer npm)
+# See Node.js upgrade instructions above
 ```
 
 **Problem:** Port already in use

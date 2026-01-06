@@ -1,0 +1,60 @@
+# Python
+venv/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# Django
+*.sqlite3
+*.db
+
+# Node.js
+node_modules/
+
+# Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+*.env
+
+# OS
+.DS_Store
+
+# Logs
+tmp/
+logs/
+*.log
+
+# Coverage
+.coverage
+htmlcov/
+
+# Python cache
+.pytest_cache/
+
+# Frontend build
+staticfiles/
+media/
+
+# Docker
+docker-compose.override.yml
+
+# Misc
+.DS_Store
+Thumbs.db

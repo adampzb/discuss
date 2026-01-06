@@ -434,33 +434,86 @@ npm cache clean --force
 npm install
 ```
 
-**Problem:** Node.js version too old
+**Problem:** Node.js version too old or wrong version detected
 
 **Symptoms:**
 - Warnings about unsupported Node.js version
 - Errors like "Unsupported engine for react-router-dom"
 - npm WARN read-shrinkwrap version mismatches
+- `node -v` shows old version even after installing new version
 
 **Solution:**
+
+**Step 1: Check which Node.js is being used**
 ```bash
-# Check current Node.js version
+# Check current version
 node -v
 
-# If version is below 20, upgrade Node.js:
+# Find where Node.js is installed
+which node
 
-# Method 1: Using NodeSource (recommended)
+# List all Node.js versions installed
+ls -la /usr/bin/node* /usr/local/bin/node* 2>/dev/null
+```
+
+**Step 2: Remove conflicting installations**
+```bash
+# Remove all Node.js installations
 sudo apt remove --purge nodejs npm
+sudo rm -rf /usr/local/bin/node /usr/local/bin/npm
+sudo rm -rf /usr/bin/node /usr/bin/npm
+sudo rm -rf /usr/local/lib/node_modules
+sudo rm -rf /usr/lib/node_modules
+
+# Clean npm cache
+npm cache clean --force
+```
+
+**Step 3: Install Node.js 20 properly**
+```bash
+# Method 1: Using NodeSource (recommended for Ubuntu)
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt install -y nodejs
 
-# Method 2: Using nvm
+# Method 2: Using nvm (better for version management)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc
 nvm install 20
 nvm use 20
+nvm alias default 20
+```
 
-# After upgrading, reinstall dependencies
+**Step 4: Verify and fix PATH issues**
+```bash
+# Check Node.js version
+node -v  # Should show v20.x.x
+
+# If still showing old version, check PATH
+echo $PATH
+
+# Ensure correct Node.js is first in PATH
+export PATH=/usr/bin:$PATH  # For NodeSource installation
+# OR
+export PATH=$HOME/.nvm/versions/node/v20.x.x/bin:$PATH  # For nvm installation
+
+# Make PATH change permanent by adding to ~/.bashrc
+nano ~/.bashrc
+# Add the appropriate export line at the end, then save (Ctrl+O, Enter, Ctrl+X)
+source ~/.bashrc
+```
+
+**Step 5: Reinstall frontend dependencies**
+```bash
 cd frontend
 rm -rf node_modules package-lock.json
 npm install
+```
+
+**Step 6: Verify everything works**
+```bash
+node -v  # Should show v20.x.x
+npm -v   # Should show 10.x.x or higher
+npm test # Should run without version warnings
 ```
 
 **Problem:** npm version too old

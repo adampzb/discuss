@@ -78,7 +78,7 @@
 
 ## 5. Open Questions (Resolved)
 1. **Voice Chat Tech:** Self-hosted (WebRTC).
-2. **Monetization:** Subscription-based (premium subforums/features).
+2. **Monetization:** Subscription-based (1 EUR/month for full access).
 3. **Mobile App:** Future React Native adaptation.
 
 ---

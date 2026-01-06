@@ -76,10 +76,10 @@
 
 ---
 
-## 5. Open Questions (To Be Resolved)
-1. **Voice Chat Tech:** WebRTC (self-hosted) or third-party (Agora/Twilio)?
-2. **Monetization:** Ads, premium subforums, or tipping?
-3. **Mobile App:** Future React Native adaptation?
+## 5. Open Questions (Resolved)
+1. **Voice Chat Tech:** Self-hosted (WebRTC).
+2. **Monetization:** Subscription-based (premium subforums/features).
+3. **Mobile App:** Future React Native adaptation.
 
 ---
 

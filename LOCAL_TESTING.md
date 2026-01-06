@@ -98,6 +98,35 @@ DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
 # Database settings
 DB_NAME=discussit
 DB_USER=discussit
+```
+
+**Important: Generate a proper Django secret key**
+
+For security, never use the example secret key in production or even development. Generate a proper secret key:
+
+```bash
+# Method 1: Use Django's built-in secret key generator
+cd backend
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+
+# Method 2: Use openssl (if available)
+openssl rand -hex 32
+
+# Method 3: Use Python directly
+python -c "import secrets; print(secrets.token_urlsafe(50))"
+```
+
+Copy the generated key and replace `your-secret-key-here` in your `.env` file:
+
+```env
+DJANGO_SECRET_KEY=your-generated-secret-key-here
+```
+
+**Security Note:**
+- Keep your secret key private
+- Never commit it to version control
+- Use different keys for development, staging, and production
+- Rotate keys regularly in production environments
 DB_PASSWORD=discussit
 DB_HOST=localhost
 DB_PORT=5432

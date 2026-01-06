@@ -1,6 +1,6 @@
-# Local Testing Guide for DiscussIt
+# Ubuntu Local Testing Guide for DiscussIt
 
-This guide provides step-by-step instructions for setting up and testing DiscussIt locally. Follow these instructions to get the development environment running on your machine.
+This guide provides step-by-step instructions for setting up and testing DiscussIt on Ubuntu 22.04 LTS or later. Follow these Ubuntu-specific instructions to get the development environment running smoothly.
 
 ## Table of Contents
 
@@ -17,7 +17,7 @@ This guide provides step-by-step instructions for setting up and testing Discuss
 
 ### Minimum Requirements
 
-- **Operating System:** Linux, macOS, or Windows 10/11
+- **Operating System:** Ubuntu 22.04 LTS or later
 - **RAM:** 8GB (16GB recommended for smooth development)
 - **Disk Space:** 10GB free space
 - **CPU:** Dual-core processor (Quad-core recommended)
@@ -36,7 +36,7 @@ This guide provides step-by-step instructions for setting up and testing Discuss
 
 **Optional but Recommended:**
 - Docker (for containerized development)
-- VS Code or PyCharm (IDE)
+- VS Code (IDE)
 - Postman (API testing)
 - pgAdmin (PostgreSQL management)
 
@@ -143,19 +143,11 @@ REACT_APP_ENV=development
 
 ### 1. Install PostgreSQL
 
-**Linux (Ubuntu/Debian):**
+**Ubuntu:**
 ```bash
 sudo apt update
 sudo apt install postgresql postgresql-contrib
 ```
-
-**macOS (Homebrew):**
-```bash
-brew install postgresql
-brew services start postgresql
-```
-
-**Windows:** Download from [PostgreSQL official website](https://www.postgresql.org/download/windows/)
 
 ### 2. Create Database and User
 
@@ -172,6 +164,27 @@ ALTER ROLE discussit SET default_transaction_isolation TO 'read committed';
 ALTER ROLE discussit SET timezone TO 'UTC';
 GRANT ALL PRIVILEGES ON DATABASE discussit TO discussit;
 \q
+```
+
+**Note for Ubuntu:** If you get a "peer authentication failed" error, you may need to modify the PostgreSQL configuration:
+
+```bash
+sudo nano /etc/postgresql/15/main/pg_hba.conf
+```
+
+Find the line:
+```
+local   all             postgres                                peer
+```
+
+And change it to:
+```
+local   all             postgres                                md5
+```
+
+Then restart PostgreSQL:
+```bash
+sudo systemctl restart postgresql
 ```
 
 ### 3. Run Database Migrations
@@ -194,7 +207,16 @@ Follow the prompts to create an admin user.
 ### 1. Start Redis Server
 
 ```bash
-redis-server
+# Install Redis if not already installed
+sudo apt update
+sudo apt install redis-server
+
+# Start Redis service
+sudo systemctl start redis
+sudo systemctl enable redis
+
+# Verify Redis is running
+redis-cli ping  # Should return "PONG"
 ```
 
 ### 2. Start Backend Development Server
@@ -218,7 +240,11 @@ The frontend will be available at `http://localhost:3000`
 ### 4. Start Celery Worker (Optional)
 
 ```bash
+# Install Celery if needed
 cd ../backend
+pip install celery
+
+# Start Celery worker
 celery -A backend worker --loglevel=info
 ```
 
@@ -259,7 +285,7 @@ curl -X GET http://localhost:8000/api/forums/subforums/
 
 ## Common Issues & Troubleshooting
 
-### Backend Issues
+### Ubuntu-Specific Issues
 
 **Problem:** `ModuleNotFoundError` when running Django
 
@@ -272,28 +298,66 @@ pip install -r requirements.txt
 **Problem:** Database connection errors
 
 **Solution:**
-1. Ensure PostgreSQL is running: `sudo service postgresql status`
-2. Check your `.env` database settings
-3. Verify database user permissions
+```bash
+# Check PostgreSQL service status
+sudo systemctl status postgresql
+
+# If not running, start it
+sudo systemctl start postgresql
+
+# Verify your .env database settings
+cat backend/.env | grep DB_
+
+# Test database connection
+sudo -u postgres psql -c "\l"
+```
 
 **Problem:** Redis connection errors
 
 **Solution:**
-1. Ensure Redis is running: `redis-cli ping` (should return `PONG`)
-2. Check Redis configuration in `.env`
+```bash
+# Check Redis service status
+sudo systemctl status redis
 
-### Frontend Issues
+# If not running, start it
+sudo systemctl start redis
+
+# Test Redis connection
+redis-cli ping  # Should return "PONG"
+
+# Check Redis configuration
+cat backend/.env | grep REDIS_
+```
 
 **Problem:** `npm` command not found
 
-**Solution:** Install Node.js from [nodejs.org](https://nodejs.org/)
+**Solution:**
+```bash
+# Install Node.js on Ubuntu
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Verify installation
+node -v
+npm -v
+```
 
 **Problem:** Frontend won't connect to backend
 
 **Solution:**
-1. Check CORS settings in `backend/settings.py`
-2. Ensure backend is running on `http://localhost:8000`
-3. Verify `REACT_APP_API_URL` in frontend `.env`
+```bash
+# Check CORS settings
+cat backend/backend/settings.py | grep CORS_ALLOWED_ORIGINS
+
+# Ensure backend is running
+curl -I http://localhost:8000
+
+# Verify frontend API URL
+cat frontend/.env | grep REACT_APP_API_URL
+
+# Check firewall settings
+sudo ufw status
+```
 
 **Problem:** Missing dependencies
 
@@ -301,7 +365,22 @@ pip install -r requirements.txt
 ```bash
 cd frontend
 rm -rf node_modules package-lock.json
+npm cache clean --force
 npm install
+```
+
+**Problem:** Port already in use
+
+**Solution:**
+```bash
+# Find process using port 8000
+sudo lsof -i :8000
+
+# Kill process (replace PID with actual process ID)
+sudo kill -9 PID
+
+# Or find and kill all Python processes
+pkill -f "python.*manage.py"
 ```
 
 ## Development Workflow
@@ -310,8 +389,9 @@ npm install
 
 1. **Start services:**
 ```bash
-# Terminal 1: Redis
-redis-server
+# Terminal 1: Start Redis service
+sudo systemctl start redis
+redis-cli ping  # Verify it's running
 
 # Terminal 2: Backend
 cd backend
@@ -392,9 +472,17 @@ Then visit `http://localhost:8089` to run tests.
 
 ## Docker Development (Optional)
 
-If you prefer Docker:
+If you prefer Docker on Ubuntu:
 
 ```bash
+# Install Docker on Ubuntu
+sudo apt update
+sudo apt install -y docker.io docker-compose
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker $USER
+newgrp docker  # Refresh group membership
+
 # Build and start containers
 docker-compose up --build
 
@@ -403,6 +491,9 @@ docker-compose exec backend python manage.py migrate
 
 # Create superuser in container
 docker-compose exec backend python manage.py createsuperuser
+
+# Stop containers
+docker-compose down
 ```
 
 ## Additional Resources

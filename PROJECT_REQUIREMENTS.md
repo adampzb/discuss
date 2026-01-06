@@ -52,7 +52,7 @@
 
 | Feature               | Technical Requirements | User Requirements |
 |-----------------------|------------------------|-------------------|
-| **Posts**             | - 280-character limit<br>- Real-time posting<br>- Character counter<br>- Draft saving | - Simple composer<br>- Quick posting<br>- Edit functionality |
+| **Posts**             | - 280-character limit<br>- Real-time posting<br>- Character counter | - Simple composer<br>- Quick posting |
 | **Voting System**     | - Shared with forum system<br>- Visual indicators<br>- Sorting algorithms | - Instant feedback<br>- Engagement metrics<br>- Leaderboards |
 | **Replies**           | - Nested comments (shared with forums)<br>- Threaded conversations<br>- Reply notifications | - Conversation view<br>- Easy reply mechanism<br>- Notification controls |
 | **Follow System**     | - Follower/following relationships<br>- Follow recommendations<br>- Privacy controls | - User profiles<br>- Follow buttons<br>- Follower management |

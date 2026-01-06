@@ -50,3 +50,8 @@ cryptography==42.0.5
 
 # Development tools
 django-debug-toolbar==4.4.6
+
+# Note: bcc package in PyPI is different from BPF Compiler Collection
+# The original requirements had bcc==0.29.1 which doesn't exist
+# Using the latest available version from PyPI
+bcc==0.1.10

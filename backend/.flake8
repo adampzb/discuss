@@ -2,6 +2,8 @@
 # Enable extensions
 max-line-length = 88
 extend-ignore = E203
+per-file-ignores =
+    backend/settings.py:E501
 
 # Exclude common directories
 exclude = 

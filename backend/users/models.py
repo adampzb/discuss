@@ -62,20 +62,18 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
-    def create_superuser(self, email, password=None, **extra_fields):
+    def get_full_name(self):
         """
-        Create and save a superuser with the given email and password.
+        Return the first_name plus the last_name, with a space in between.
         """
-        extra_fields.setdefault("is_staff", True)
-        extra_fields.setdefault("is_superuser", True)
-        extra_fields.setdefault("is_active", True)
+        full_name = f"{self.first_name} {self.last_name}"
+        return full_name.strip()
 
-        if extra_fields.get("is_staff") is not True:
-            raise ValueError("Superuser must have is_staff=True.")
-        if extra_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser must have is_superuser=True.")
-
-        return self._create_user(email, password, **extra_fields)
+    def get_short_name(self):
+        """
+        Return the short name for the user.
+        """
+        return self.first_name
 
     class Meta:
         verbose_name = _("user")

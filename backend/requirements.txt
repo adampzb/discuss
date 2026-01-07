@@ -61,6 +61,11 @@ Pillow==12.1.0
 # Development tools
 django-debug-toolbar==4.3.0
 
+# Code quality and formatting
+flake8==7.1.1
+black==24.8.0
+isort==5.13.2
+
 # Note: bcc package in PyPI is different from BPF Compiler Collection
 # The original requirements had bcc==0.29.1 which doesn't exist
 # Using the latest available version from PyPI

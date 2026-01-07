@@ -1,0 +1,33 @@
+[flake8]
+# Enable extensions
+max-line-length = 88
+extend-ignore = E203
+
+# Exclude common directories
+exclude = 
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    migrations,
+    static,
+    media,
+    node_modules
+
+# Enable more checks
+select = 
+    E,  # pycodestyle errors
+    W,  # pycodestyle warnings
+    F,  # Pyflakes
+    C,  # mccabe complexity
+    B,  # bugbear
+    I,  # isort
+    N,  # pep8-naming
+
+# Configuration for specific plugins
+[flake8-bugbear]
+extend-ignore = B008
+
+[flake8-isort]
+profile = black
+known_first_party = backend,users,forums,microblogging,shared

@@ -1,0 +1,58 @@
+# Ignore git directory
+.git
+.gitignore
+
+# Ignore IDE files
+.idea
+.vscode
+*.swp
+*.swo
+
+# Ignore Python specific files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Ignore Node.js specific files
+node_modules/
+npm-debug.log
+
+# Ignore build artifacts
+build/
+dist/
+
+# Ignore environment files
+.env
+.env.local
+*.env
+
+# Ignore Docker specific files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Ignore macOS specific files
+.DS_Store
+
+# Ignore coverage files
+coverage/
+.htmlcov/
+.tox/
+
+# Ignore database files
+*.sqlite3
+*.db
+
+# Ignore log files
+*.log
+
+# Ignore OS specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

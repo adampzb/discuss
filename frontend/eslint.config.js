@@ -1,41 +1,23 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
+import js from "@eslint/js";
+import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import tseslint from "typescript-eslint";
+import { defineConfig, globalIgnores } from "eslint/config";
 
-const compat = new FlatCompat();
-
-export default [
-  js.configs.recommended,
-  ...compat.extends(
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended'
-  ),
-  ...compat.config({
-    plugins: ['prettier'],
-    rules: {
-      'prettier/prettier': 'error',
-    },
-  }),
+export default defineConfig([
+  globalIgnores(["dist"]),
   {
+    files: ["**/*.{ts,tsx}"],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+      reactHooks.configs.flat.recommended,
+      reactRefresh.configs.vite,
+    ],
     languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      globals: {
-        browser: true,
-        node: true,
-      },
-    },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
-    rules: {
-      'react/react-in-jsx-scope': 'off',
-      'react/prop-types': 'off',
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-      'no-unused-vars': 'warn',
-      'no-console': 'warn',
+      ecmaVersion: 2020,
+      globals: globals.browser,
     },
   },
-];
+]);

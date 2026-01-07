@@ -2,12 +2,19 @@
 # Generated for Django social media platform
 
 # Core Django packages
-Django==6.0.1
+Django==5.2.9
 asgiref==3.11.0
 sqlparse==0.5.5
 
 # Django REST Framework
-djangorestframework==3.16.1
+djangorestframework==3.15.1
+djangorestframework_simplejwt==5.5.1
+
+# Form rendering
+django-crispy-forms==2.5
+
+# Filtering
+django-filter==25.2
 
 # Authentication
 django-allauth==65.13.1
@@ -16,40 +23,43 @@ django-allauth==65.13.1
 psycopg2-binary==2.9.11
 
 # Real-time features
-channels==4.3.2
+channels==4.1.0
 channels-redis==4.3.0
 redis==7.1.0
 
 # Async tasks
-celery==5.6.2
+celery==5.3.6
 
 # CORS support
-django-cors-headers==4.9.0
+django-cors-headers==4.3.1
 
 # Required dependencies
-amqp==5.3.1
-billiard==4.2.4
-click==8.3.1
-click-didyoumean==0.3.1
-click-plugins==1.1.1.2
+amqp==5.1.1
+billiard==4.2.0
+click==8.1.7
+click-didyoumean==0.3.0
+click-plugins==1.1.1
 click-repl==0.3.0
-kombu==5.6.2
-msgpack==1.1.2
-packaging==25.0
-prompt-toolkit==3.0.52
-python-dateutil==2.9.0.post0
-six==1.17.0
-tzdata==2025.3
-tzlocal==5.3.1
+kombu==5.3.5
+msgpack==1.0.8
+packaging==24.1
+prompt-toolkit==3.0.43
+python-dateutil==2.9.0
+six==1.16.0
+tzdata==2024.1
+tzlocal==5.2
 vine==5.1.0
-wcwidth==0.2.14
+wcwidth==0.2.13
 
 # Security
-bcrypt==3.2.2
+bcrypt==4.1.2
 cryptography==42.0.5
 
+# Image processing
+Pillow==12.1.0
+
 # Development tools
-django-debug-toolbar==4.4.6
+django-debug-toolbar==4.3.0
 
 # Note: bcc package in PyPI is different from BPF Compiler Collection
 # The original requirements had bcc==0.29.1 which doesn't exist

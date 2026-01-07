@@ -1,16 +1,12 @@
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
-from django.contrib.auth import get_user_model
 from django.contrib.sessions.models import Session
 from django.utils import timezone
-from .models import User
 from .profile_models import UserProfile
 from .activity_models import UserActivity, UserActivityAggregation, UserSession
 
-User = get_user_model()
 
-
-@receiver(post_save, sender=User)
+@receiver(post_save, sender='users.User')
 def create_user_activity_stats(sender, instance, created, **kwargs):
     """
     Create activity aggregation when a new user is created.

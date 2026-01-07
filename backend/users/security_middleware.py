@@ -1,5 +1,4 @@
 from django.utils.deprecation import MiddlewareMixin
-from django.conf import settings
 from django.http import JsonResponse
 from django.utils import timezone
 from .models import UserSession
@@ -82,7 +81,7 @@ class SessionSecurityMiddleware(MiddlewareMixin):
                 # Check if this session belongs to the current user
                 session = UserSession.objects.get(session_key=session_key)
                 if session.user != request.user:
-                    logger.warning(f"Potential session hijacking detected for user {request.user.email}")
+                    logger.warning("Potential session hijacking detected for user %s", request.user.email)
                     # Invalidate the session
                     request.session.flush()
                     return JsonResponse(

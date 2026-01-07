@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from .serializers import UserSerializer, PasswordResetSerializer, SetNewPasswordSerializer
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.template.loader import render_to_string

@@ -31,4 +31,7 @@ urlpatterns = [
     
     # Management endpoints (admin only)
     path('management/', include('users.management_urls')),
+    
+    # Activity endpoints
+    path('activity/', include('users.activity_urls')),
 ]

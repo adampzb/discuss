@@ -70,6 +70,10 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "users.security_middleware.SecurityHeadersMiddleware",
+    "users.security_middleware.SessionSecurityMiddleware",
+    "users.security_middleware.RateLimitMiddleware",
+    "users.security_middleware.SecurityLoggingMiddleware",
 ]
 
 ROOT_URLCONF = "backend.urls"

@@ -8,3 +8,4 @@ class UsersConfig(AppConfig):
     def ready(self):
         """Import signals when the app is ready."""
         import users.signals
+        import users.activity_signals

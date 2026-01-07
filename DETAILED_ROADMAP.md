@@ -61,14 +61,12 @@ This detailed roadmap outlines the complete development timeline for DiscussIt, 
 - [ ] **Authentication System** (Backend Team)
   - Django Allauth integration
   - JWT token implementation
-  - Social login providers (Google, Facebook, etc.)
   - Password reset functionality
 
 ### Week 4: Authentication Frontend
 - [ ] **Login/Signup UI** (Frontend Team)
   - React authentication components
   - Form validation and error handling
-  - Social login buttons
   - Responsive design implementation
   
 - [ ] **API Integration** (Full-stack Team)

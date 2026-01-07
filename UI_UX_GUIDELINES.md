@@ -328,7 +328,6 @@
 - Login button (primary)
 - Forgot password link
 - Sign up link
-- Social login buttons (optional)
 
 **Design Requirements:**
 - Clean, minimal design

@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.utils.deprecation import MiddlewareMixin
 
-from .activity_models import UserSession
+from .models import UserSession
 
 logger = logging.getLogger(__name__)
 
@@ -25,10 +25,27 @@ class SecurityHeadersMiddleware(MiddlewareMixin):
         )
         response[
             "Content-Security-Policy"
-        ] = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'"
+        ] = """
+            default-src 'self';
+            script-src 'self' 'unsafe-inline' 'unsafe-eval';
+            style-src 'self' 'unsafe-inline';
+            img-src 'self' data:;
+            font-src 'self';
+            connect-src 'self';
+            frame-src 'none';
+            object-src 'none';
+            base-uri 'self';
+            form-action 'self';
+        """
         response[
             "Permissions-Policy"
-        ] = "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+        ] = """
+            geolocation=(),
+            microphone=(),
+            camera=(),
+            payment=(),
+            usb=()
+        """
 
         return response
 

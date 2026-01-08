@@ -4,6 +4,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
+from rest_framework import status as drf_status
 
 from .profile_models import UserProfile
 from .profile_serializers import UserProfileSerializer
@@ -89,11 +90,11 @@ class UserActivationView(generics.GenericAPIView):
                 message = f"User {user.email} has been {status}."
 
             user.save()
-            return Response({"detail": message}, status=status.HTTP_200_OK)
+            return Response({"detail": message}, status=drf_status.HTTP_200_OK)
 
         except User.DoesNotExist:
             return Response(
-                {"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "User not found."}, status=drf_status.HTTP_404_NOT_FOUND
             )
 
 
@@ -116,7 +117,7 @@ class UserStatsView(generics.GenericAPIView):
             .values("id", "email", "first_name", "last_name", "date_joined"),
         }
 
-        return Response(stats, status=status.HTTP_200_OK)
+        return Response(stats, status=drf_status.HTTP_200_OK)
 
 
 class UserProfileManagementView(generics.RetrieveUpdateAPIView):

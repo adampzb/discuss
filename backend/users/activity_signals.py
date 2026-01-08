@@ -10,9 +10,13 @@ from .profile_models import UserProfile
 @receiver(post_save, sender="users.User")
 def create_user_activity_stats(sender, instance, created, **kwargs):
     """
-    Create activity aggregation when a new user is created.
+    Create activity aggregation and profile when a new user is created.
     """
     if created:
+        # Create user profile
+        UserProfile.objects.create(user=instance)
+        
+        # Create activity aggregation
         UserActivityAggregation.objects.create(user=instance)
 
         # Log registration activity

@@ -139,9 +139,9 @@ class UserProfileTests(TestCase):
             last_name="Two",
         )
 
-        # Create profiles
-        self.profile1 = UserProfile.objects.create(user=self.user1)
-        self.profile2 = UserProfile.objects.create(user=self.user2)
+        # Get profiles (they should be created automatically by signals)
+        self.profile1 = self.user1.profile
+        self.profile2 = self.user2.profile
 
     def test_profile_creation_on_user_creation(self):
         """Test that profile is automatically created when user is created."""
@@ -208,11 +208,10 @@ class UserProfileTests(TestCase):
 
         # Search for users
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {access_token}")
-        response = self.client.get(reverse("user-search"), {"q": "user2"})
+        response = self.client.get(reverse("user-search"), {"q": "user2@example.com"})
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]["email"], "user2@example.com")
+        self.assertEqual(len(response.data["results"]), 1)
+        self.assertEqual(response.data["results"][0]["email"], "user2@example.com")
 
 
 class UserManagementTests(TestCase):

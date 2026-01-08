@@ -9,15 +9,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     Serializer for UserProfile model.
     """
 
-    email = serializers.EmailField(source="user.email", read_only=True)
-    first_name = serializers.CharField(source="user.first_name")
-    last_name = serializers.CharField(source="user.last_name")
-    bio = serializers.CharField(source="user.bio")
-    profile_picture = serializers.ImageField(
-        source="user.profile_picture", required=False
-    )
-    date_of_birth = serializers.DateField(source="user.date_of_birth", required=False)
-
+    user = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
 
@@ -25,12 +17,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = [
             "id",
-            "email",
-            "first_name",
-            "last_name",
-            "bio",
-            "profile_picture",
-            "date_of_birth",
+            "user",
             "privacy_setting",
             "email_notifications",
             "push_notifications",
@@ -56,6 +43,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "followers_count",
             "following_count",
         ]
+
+    def get_user(self, obj):
+        """Get user data for the profile."""
+        return {
+            "id": obj.user.id,
+            "email": obj.user.email,
+            "first_name": obj.user.first_name,
+            "last_name": obj.user.last_name,
+            "bio": obj.user.bio,
+            "profile_picture": obj.user.profile_picture.url if obj.user.profile_picture else None,
+            "date_of_birth": obj.user.date_of_birth,
+        }
 
     def get_followers_count(self, obj):
         return obj.get_followers_count()
@@ -107,7 +106,7 @@ class UserSearchSerializer(serializers.ModelSerializer):
     Serializer for user search results.
     """
 
-    profile_picture = serializers.ImageField(source="profile_picture", required=False)
+    profile_picture = serializers.ImageField(required=False)
     is_following = serializers.SerializerMethodField()
 
     class Meta:

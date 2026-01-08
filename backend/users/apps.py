@@ -7,4 +7,4 @@ class UsersConfig(AppConfig):
 
     def ready(self):
         """Import signals when the app is ready."""
-        pass
+        import users.activity_signals
